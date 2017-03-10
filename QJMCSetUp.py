@@ -4,7 +4,7 @@ import sys
 import random
 import math
 
-import QJMCBackend
+import QJMCAA
 import QJMCMath
 
 #TESTED
@@ -33,10 +33,10 @@ def dimensionTest(H,jumpOps,eOps,psi0):
 #TESTED
 def typeTest(settings, savingSettings, H, jumpOps, eOps, psi0):
 	#Checks the settings data typeTest
-	if (not isinstance(settings, QJMCBackend.Settings)):
+	if (not isinstance(settings, QJMCAA.Settings)):
 		sys.exit("ERROR: the settings object is not the correct class")
 
-	if (not isinstance(savingSettings, QJMCBackend.SavingSettings)):
+	if (not isinstance(savingSettings, QJMCAA.SavingSettings)):
 		sys.exit("ERROR: the savingSettings object is not the correct class")
 
 	if (not scipy.sparse.issparse(H)):

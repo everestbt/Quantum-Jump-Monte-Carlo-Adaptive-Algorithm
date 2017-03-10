@@ -4,7 +4,7 @@ import scipy
 import unittest
 
 import QJMCSetUp
-import QJMCBackend
+import QJMCAA
 import QJMCMath
 
 
@@ -44,8 +44,8 @@ class TestQJMCSetUp(unittest.TestCase):
 
     def test_typeTest(self):
         #Test the settings
-        settings = QJMCBackend.Settings()
-        savingSettings = QJMCBackend.SavingSettings()
+        settings = QJMCAA.Settings()
+        savingSettings = QJMCAA.SavingSettings()
 
         H = scipy.sparse.csc_matrix((3, 4), dtype=numpy.int8)
 

@@ -6,7 +6,7 @@ import scipy
 import numpy
 import matplotlib.pyplot as plt
 
-import QJMCBackend
+import QJMCAA
 import QJMCMath
 import QJMCMeasure
 
@@ -95,13 +95,13 @@ def main(argv):
 	parameters.gamma = 0.0
 
 	#Simulation settings
-	settings = QJMCBackend.Settings()
+	settings = QJMCAA.Settings()
 	settings.numberOfTrajectories = 100
 	settings.T = 10.0
 	settings.accuracyMagnitude = 5
 
 	#Sets up how the data will be saved
-	savingSettings = QJMCBackend.SavingSettings()
+	savingSettings = QJMCAA.SavingSettings()
 	savingSettings.modelName = 'TwoLevel'
 	#Adds the parameters to save by
 	savingSettings.addParameter('Omega',parameters.omega)
@@ -129,7 +129,7 @@ def main(argv):
 	settings.randomInitialStates = False
 
 	#Runs the simulation
-	QJMCBackend.QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0)
+	QJMCAA.QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0)
 
 	#Plots the data
 	fig1 = plt.figure()
