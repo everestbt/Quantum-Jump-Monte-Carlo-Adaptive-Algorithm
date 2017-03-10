@@ -1,5 +1,4 @@
 import numpy
-import scipy
 import os
 import progressbar
 import random
