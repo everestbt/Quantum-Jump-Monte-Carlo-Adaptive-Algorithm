@@ -1,4 +1,3 @@
-import QJMCBackend
 import math
 import time
 import sys
@@ -6,6 +5,8 @@ import qutip
 import QJMCMath
 import scipy
 import numpy as np
+
+import QJMCAA
 
 class Parameters:
 	def __init__(self):

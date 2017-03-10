@@ -1,10 +1,7 @@
-import qutip
 import numpy
-import scipy
 import unittest
 import math
 
-import QJMCJump
 import QJMCMath
 
 class TestQJMCMath(unittest.TestCase):

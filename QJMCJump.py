@@ -1,6 +1,5 @@
 import numpy
 import random
-import math
 
 import QJMCMath
 

@@ -2,7 +2,6 @@ import scipy
 import numpy
 import sys
 import random
-import math
 
 import QJMCAA
 import QJMCMath

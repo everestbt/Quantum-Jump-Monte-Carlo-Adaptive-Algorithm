@@ -1,5 +1,3 @@
-import math
-import time
 import sys
 import qutip
 import scipy
@@ -27,6 +25,7 @@ def initialStateDefine():
 	#psi0 = numpy.ndarray(shape=(2,1),dtype=complex)
 	#psi0[0] = complex(0,0)
 	#psi0[1] = complex(1,0)
+	#psi0 = QJMCMath.normalise(psi0) #just in case
 
 	return psi0
 
