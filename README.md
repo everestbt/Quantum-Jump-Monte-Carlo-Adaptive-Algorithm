@@ -10,8 +10,7 @@ To run the QJMCAA  the following must be passed to the function QJMCAA:
 - H - this is the Hamiltonian of your system in scipy.sparse.csc_matrix format.
 - jumpOps - a list [] of your jump operators in scipy.sparse.csc_matrix format.
 - eOps - a list [] of your expecation operators in scipy.sparse.csc_matrix format. Note unless they are added in the SavingSettings they will not be saved and their order must align.
-
--psi0 - your initial state in numpy.ndarray format.
+- psi0 - your initial state in numpy.ndarray format.
 
 Please view the twoLevel.py file for a clear example of how to use it
 
