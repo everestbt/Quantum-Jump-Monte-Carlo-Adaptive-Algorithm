@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#An example of a 2-level system with plotting included
 import sys
 import qutip
 import scipy

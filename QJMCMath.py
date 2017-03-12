@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#Basic useful mathematical functions
 import numpy
 import math
 

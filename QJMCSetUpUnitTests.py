@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#Unit tests for the set-up functions
 import qutip
 import numpy
 import scipy

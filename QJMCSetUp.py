@@ -1,3 +1,6 @@
+#Edited 12/3/17 Ben Everest
+#Functions used to set up the algorithm and perform checks on the given 
+#variables
 import scipy
 import numpy
 import sys

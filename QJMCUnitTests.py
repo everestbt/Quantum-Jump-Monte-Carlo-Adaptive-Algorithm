@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#A collection of all the unit tests, just run this to run all
 import unittest
 import QJMCMathUnitTests
 import nose

@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#The functions used to perform a jump in the trajectory
 import numpy
 import random
 

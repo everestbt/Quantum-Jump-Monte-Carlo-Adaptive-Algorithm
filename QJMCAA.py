@@ -1,3 +1,7 @@
+#Edited 12/3/17 Ben Everest
+#The file for the Quantum Jump Monte Carlo adapative algorithm.
+#It contains the base classes which are used by the user to apply settings
+#and it contains the code to run the algorithm
 import numpy
 import os
 import progressbar

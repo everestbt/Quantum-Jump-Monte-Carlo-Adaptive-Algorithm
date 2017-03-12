@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#Functions used to perform measurements on a trajectory and to save them
 import numpy
 import QJMCMath
 

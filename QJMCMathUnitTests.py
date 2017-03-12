@@ -1,3 +1,5 @@
+#Edited 12/3/17 Ben Everest
+#Unit tests for the math functions
 import numpy
 import unittest
 import math
