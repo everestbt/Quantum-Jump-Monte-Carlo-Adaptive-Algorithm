@@ -6,13 +6,10 @@ It is best used to linear times, and the base algorithm does not accept custom t
 To run the QJMCAA  the following must be passed to the function QJMCAA:
 
 - QJMCAA.Settings() - this contains the time, the number of trajectories, the number of points and the accuracy Magnitude (see definition below)
-
--QJMCAA.SavingSettings() - this controls how your data will be saved. You can give it parameters to include in the name, add expectation values to save (this is a first come first served method) and the accuracy. This is also where you set Histograms to be one or not, and again when they are added it is first come first served. Note you must add the expectation to be saved before the histogram.
--H - this is the Hamiltonian of your system in scipy.sparse.csc_matrix format.
-
--jumpOps - a list [] of your jump operators in scipy.sparse.csc_matrix format.
-
--eOps - a list [] of your expecation operators in scipy.sparse.csc_matrix format. Note unless they are added in the SavingSettings they will not be saved and their order must align.
+- QJMCAA.SavingSettings() - this controls how your data will be saved. You can give it parameters to include in the name, add expectation values to save (this is a first come first served method) and the accuracy. This is also where you set Histograms to be one or not, and again when they are added it is first come first served. Note you must add the expectation to be saved before the histogram.
+- H - this is the Hamiltonian of your system in scipy.sparse.csc_matrix format.
+- jumpOps - a list [] of your jump operators in scipy.sparse.csc_matrix format.
+- eOps - a list [] of your expecation operators in scipy.sparse.csc_matrix format. Note unless they are added in the SavingSettings they will not be saved and their order must align.
 
 -psi0 - your initial state in numpy.ndarray format.
 
