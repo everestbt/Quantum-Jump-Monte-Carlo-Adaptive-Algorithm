@@ -9,6 +9,7 @@ def calculateSquareOfWavefunction(psi):
 	return P
 
 #TESTED
+#TODO add boundary conditions options
 def neighbour(pos, N, shift):
 	return (pos + N + shift)%N
 
