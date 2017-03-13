@@ -14,6 +14,8 @@ import QJMCMeasure
 import QJMCSetUp
 import QJMCMath
 import QJMCJump
+import QJMCEvolve
+import QJMCJumpLowMemory
 
 class Settings:
 	def __init__(self):
@@ -23,6 +25,7 @@ class Settings:
 		self.location = os.path.dirname(os.path.realpath(__file__)) + '/'
 		self.accuracyMagnitude = 3
 		self.randomInitialStates = False
+		self.smallestDt = 0.01
 
 class SavingHistogram:
 	def __init__(self):
@@ -88,7 +91,7 @@ def QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0):
 			settings.numberOfPoints)
 
 	#Produces the effective hamiltonain as an exponent and gets the smaller set
-	HEffExponentDt, HEffExponentDtSet = QJMCSetUp.HEffExponentProduction(H,
+	HEffExponentDt, HEffExponentDtSet = QJMCSetUp.HEffExponentSetProduction(H,
 		jumpOpsPaired, tList[1], settings.accuracyMagnitude)
 
 	#Used to track the progress of the simulation
@@ -131,6 +134,90 @@ def QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0):
 				#other jumps
 				t, psi, r = QJMCJump.catchUpApprox(t, tList[index], tList[1], psi,
 					jumpOps, jumpOpsPaired,HEffExponentDtSet)
+			#Performs the measurement
+			index = QJMCMeasure.measure(index, psi, eResults,eOps,
+				histograms, savingSettings)
+	bar.update(settings.numberOfTrajectories)
+	print('Saving')
+	#Averages all the results
+	eResults = QJMCMeasure.averageResults(eResults,settings)
+	if (savingSettings.histograms):
+		histograms = QJMCMeasure.averageHistograms(histograms,settings.numberOfTrajectories)
+	#Saves the results
+	QJMCMeasure.saveResults(settings,savingSettings,eResults)
+	if (savingSettings.histograms):
+		QJMCMeasure.saveHistograms(settings,savingSettings,histograms)
+
+	endTime = time.time()
+	print('Time taken ' + str(timedelta(seconds=endTime-startTime)))
+
+def QJMCRunLowMemory(settings, savingSettings, tList, H, jumpOps, eOps, psi0):
+	#Tests the inputs
+	QJMCSetUp.dimensionTest(H,jumpOps,eOps,psi0)
+	#TODO add type test on tList
+	QJMCSetUp.typeTest(settings, savingSettings, H, jumpOps, eOps, psi0)
+
+	startTime = time.time()
+
+	#Sets the number of points based on the tList
+	#TODO check this works correctly
+	settings.numberOfPoints = len(tList)
+
+	#Gets the pairs of jump operators for later use
+	jumpOpsPaired = QJMCSetUp.jumpOperatorsPaired(jumpOps)
+
+	#Gets the effective Hamiltonian
+	HEff = QJMCSetUp.HEffProduction(H, jumpOpsPaired)
+
+	#Produces expectation operators squared to help produce variance
+	QJMCSetUp.addExpectationSquared(eOps)
+
+	#Produces results arrays
+	eResults = QJMCSetUp.eResultsProduction(eOps,settings.numberOfPoints)
+
+	#Produces the histograms
+	if (savingSettings.histograms):
+		histograms = QJMCSetUp.histogramProduction(savingSettings.histogramOptions,
+			settings.numberOfPoints)
+
+	#Used to track the progress of the simulation
+	bar = progressbar.ProgressBar(maxval=settings.numberOfTrajectories, \
+    widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+	bar.start()
+	for traj in range(settings.numberOfTrajectories):
+		bar.update(traj)
+		#Resets the system
+		#Selects a random initial state if requested
+		if settings.randomInitialStates:
+			psi0 = QJMCSetUp.randomInitialState(H)
+		psi = psi0
+		previousPsi = psi
+		t = 0
+		index = 0
+
+		#Performs the first measure at t=0
+		index = QJMCMeasure.measure(index, psi, eResults, eOps,
+			histograms, savingSettings)
+		#Selects the random number for the first time selection
+		r = random.random()
+		#START OF LOOP
+		while (index < settings.numberOfPoints):
+			#Saves the previous state if necessary
+			previousPsi = psi
+			#Progresses to the next time step
+			dt = tList[index] - tList[index-1]
+			t, psi = QJMCEvolve.evolvePsi(psi, t, dt, HEff)
+			#Calculates the survivial probability
+			survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
+			#Checks if it has jumped in the last time step
+			if survivialProbability < r:
+				#Performs the jump at the more accurate time
+				t, psi = QJMCJumpLowMemory.jump(tList[index - 1], dt,
+					settings.smallestDt, psi,r, jumpOps, jumpOpsPaired, HEff)
+				#Catches up the accurate time to the index time, performing any
+				#other jumps
+				t, psi, r = QJMCJumpLowMemory.catchUpApprox(t, tList[index],
+					settings.smallestDt, psi, jumpOps, jumpOpsPaired,HEff)
 			#Performs the measurement
 			index = QJMCMeasure.measure(index, psi, eResults,eOps,
 				histograms, savingSettings)

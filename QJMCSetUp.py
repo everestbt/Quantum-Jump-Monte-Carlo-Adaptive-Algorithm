@@ -1,5 +1,5 @@
 #Edited 12/3/17 Ben Everest
-#Functions used to set up the algorithm and perform checks on the given 
+#Functions used to set up the algorithm and perform checks on the given
 #variables
 import scipy
 import numpy
@@ -85,14 +85,23 @@ def histogramProduction(histogramOptions,numberOfPoints):
 
 	return histograms
 
-def HEffExponentProduction(H,jumpOpsPaired, dt, accuracyMagnitude):
+def HEffProduction(H, jumpOpsPaired):
 	j=complex(0,1)
-
 	HEff = H
 
-	#This is now HEffSparse but we use just H to avoid doubling the memory
 	for i in range(len(jumpOpsPaired)):
 		HEff = HEff - (j/2)*jumpOpsPaired[i]
+	return HEff
+
+def HEffExponentProduction(HEff, dt):
+	j=complex(0,1)
+	return scipy.linalg.expm(HEff.multiply(-j*dt))
+
+#TODO make this use the HEffExponentProduction function
+def HEffExponentSetProduction(H,jumpOpsPaired, dt, accuracyMagnitude):
+	j=complex(0,1)
+
+	HEff = HEffProduction(H, jumpOpsPaired)
 
 	HEffExponentDt = scipy.linalg.expm(HEff.multiply(-j*dt))
 

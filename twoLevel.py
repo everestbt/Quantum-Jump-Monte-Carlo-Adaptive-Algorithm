@@ -100,6 +100,7 @@ def main(argv):
 	settings.numberOfTrajectories = 100
 	settings.T = 10.0
 	settings.accuracyMagnitude = 5
+	settings.numberOfPoints = 1001
 
 	#Sets up how the data will be saved
 	savingSettings = QJMCAA.SavingSettings()
@@ -129,7 +130,7 @@ def main(argv):
 	#This is the option to use a random state (have to pass a valid psi0 but it will be randomised)
 	settings.randomInitialStates = False
 
-	#Runs the simulation
+	#Runs the simulation standard
 	QJMCAA.QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0)
 
 	#Plots the data
@@ -141,14 +142,19 @@ def main(argv):
 	var = x[:,2]
 	ax1.plot(t,pop,'b')
 
-	#This is how you add upper and lower boundaries (not very useful here)
-	#upper = numpy.zeros(len(pop))
-	#lower = numpy.zeros(len(pop))
-	#for i in range(len(pop)):
-		#upper[i] = pop[i] + numpy.sqrt(var[i])
-		#lower[i] = pop[i] - numpy.sqrt(var[i])
-	#ax1.plot(t,upper,'k--')
-	#ax1.plot(t,lower,'k--')
+	#Runs the simulation using the low memory method
+	#This sets the accuracy of the method for low memory method
+	settings.smallestDt = pow(10,-7)
+	tList = numpy.linspace(0,settings.T,settings.numberOfPoints)
+	QJMCAA.QJMCRunLowMemory(settings, savingSettings, tList,
+		H, jumpOps, eOps, psi0)
+
+	#Plots the data
+	x = numpy.loadtxt(QJMCMeasure.nameTheFile(savingSettings,0))
+	t = x[:,0]
+	pop = x[:,1]
+	var = x[:,2]
+	ax1.plot(t,pop,'b')
 
 	#Gets a solution from qutip master equation solution
 	result = qutip.mesolve(parameters.omega *qutip.sigmax(),
