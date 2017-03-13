@@ -144,17 +144,17 @@ def main(argv):
 
 	#Runs the simulation using the low memory method
 	#This sets the accuracy of the method for low memory method
-	settings.smallestDt = pow(10,-7)
-	tList = numpy.linspace(0,settings.T,settings.numberOfPoints)
-	QJMCAA.QJMCRunLowMemory(settings, savingSettings, tList,
-		H, jumpOps, eOps, psi0)
+	#settings.smallestDt = pow(10,-7)
+	#tList = numpy.linspace(0,settings.T,settings.numberOfPoints)
+	#QJMCAA.QJMCRunLowMemory(settings, savingSettings, tList,
+	#	H, jumpOps, eOps, psi0)
 
 	#Plots the data
-	x = numpy.loadtxt(QJMCMeasure.nameTheFile(savingSettings,0))
-	t = x[:,0]
-	pop = x[:,1]
-	var = x[:,2]
-	ax1.plot(t,pop,'b')
+	#x = numpy.loadtxt(QJMCMeasure.nameTheFile(savingSettings,0))
+	#t = x[:,0]
+	#pop = x[:,1]
+	#var = x[:,2]
+	#ax1.plot(t,pop,'b')
 
 	#Gets a solution from qutip master equation solution
 	result = qutip.mesolve(parameters.omega *qutip.sigmax(),
