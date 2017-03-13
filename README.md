@@ -16,6 +16,8 @@ Please view the twoLevel.py file for a clear example of how to use it
 
 The accuracy magnitude (K) defines the smallest time that the algorithm will consider. It does this by taking the dt defined by the parameters T and the number of points (M) (i.e dt = T / (M-1)) and it will consider time values which are K orders of magnitude smaller. I suggest you define your accuracy magnitude as a function of T and M and the largest rate possible in the system
 
+The low memory method should only be used if you require the lower memory (surprise surprise) or if you want to do custom time lists (such as logarithmic time). This works by only producing the exponential matrices when they are needed, as such there should only be 1 at a time. This greatly reduces the memory but makes it much slower as this is the most costly action in the simulation. It is NOT optimised as it is not the goal of the package. If there is a greater interest in it, there are optimisations that can be done, I simply included it such that custom time lists could be done. 
+
 Dependencies:
 numpy
 scipy
