@@ -7,7 +7,6 @@ import os
 import progressbar
 import random
 import time
-import sys
 from datetime import timedelta
 
 import QJMCMeasure
@@ -191,7 +190,6 @@ def QJMCRunLowMemory(settings, savingSettings, tList, H, jumpOps, eOps, psi0):
 		if settings.randomInitialStates:
 			psi0 = QJMCSetUp.randomInitialState(H)
 		psi = psi0
-		previousPsi = psi
 		t = 0
 		index = 0
 
