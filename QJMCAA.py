@@ -84,10 +84,12 @@ def QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0):
 	#Produces results arrays
 	eResults = QJMCSetUp.eResultsProduction(eOps,settings.numberOfPoints)
 
-	#Produces the histograms
+	#Produces the histograms list
 	if (savingSettings.histograms):
 		histograms = QJMCSetUp.histogramProduction(savingSettings.histogramOptions,
 			settings.numberOfPoints)
+	else:
+		histograms = []
 
 	#Produces the effective hamiltonain as an exponent and gets the smaller set
 	HEffExponentDt, HEffExponentDtSet = QJMCSetUp.HEffExponentSetProduction(H,
