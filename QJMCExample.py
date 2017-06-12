@@ -1,6 +1,5 @@
 #Edited 12/3/17 Ben Everest
 #An example of a lattice system
-import math
 import time
 import sys
 import qutip
@@ -24,7 +23,7 @@ class Lattice:
 #This example sets a chain of spins to the up state
 def initialStateDefine(N):
 	psi_list = []
-	for n in range(N):
+	for _ in range(N):
 		psi_list.append(qutip.basis(2, 0))
 	psi0 = qutip.tensor(psi_list)
 
@@ -225,11 +224,11 @@ def main(argv):
 	parameters = Parameters()
 	parameters.omega = 1.0# float(argv[1])
 	#Simulation settings
-	settings = QJMCBackend.Settings()
+	settings = QJMCAA.Settings()
 	settings.numberOfTrajectories = 1000
 
 	#Sets up how the data will be saved
-	savingSettings = QJMCBackend.SavingSettings()
+	savingSettings = QJMCAA.SavingSettings()
 	savingSettings.model = 'example'
 	savingSettings.addParameter('Omega',parameters.omega)
 	savingSettings.addExpectionSave('Population')
@@ -255,7 +254,7 @@ def main(argv):
 	psi0 = initialStateDefine(lattice.numberOfSites)
 
 	#Runs the simulation
-	QJMCBackend.QJMCRun(lattice, settings, savingSettings, H, jumpOps, eOps, psi0)
+	QJMCAA.QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0)
 
 
 if __name__ == "__main__":
