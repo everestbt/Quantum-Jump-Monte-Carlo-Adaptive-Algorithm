@@ -1,6 +1,3 @@
-import scipy
-import numpy
-
 import QJMCSetUp
 
 #TODO use this where possible in the low memory solution
