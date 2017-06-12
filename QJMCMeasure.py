@@ -4,7 +4,8 @@ import numpy
 import QJMCMath
 
 #Performs all the measurements
-def measure(index, psi, eResults,eOps, histograms, savingSettings):
+#TESTED
+def measure(index, psi, eResults, eOps, histograms, savingSettings):
 	#Extracts normalised wavefunctions
 	psiNormalised = QJMCMath.normalise(psi)
 	psiNormalisedLeft = numpy.conjugate(numpy.transpose(psiNormalised))[0]
@@ -72,8 +73,6 @@ def saveResults(settings,savingSettings,eResults):
 			fmt='%.'+str(savingSettings.dataDecimalPlaces)+'e')
 
 def saveHistograms(settings,savingSettings,histograms):
-	#Produces the time list
-	tList = numpy.linspace(0,settings.T,settings.numberOfPoints)
 	for i in range(len(histograms)):
 		name = nameTheFile(savingSettings,i)
 		#Corrects the name to include Histogram
