@@ -98,5 +98,30 @@ class TestQJMCSetUp(unittest.TestCase):
         QJMCSetUp.dimensionTest(H,jumpOps,eOps,psi0)
         self.assertTrue(True)
 
+    def test_HEffExponentSetProductionBinary(self):
+        sx = qutip.sigmax()
+    	H =  sx
+        H = H.full()
+    	H = scipy.sparse.csc_matrix(H)
+
+        sm = qutip.sigmam()
+        jumpOps = []
+        jumpOps.append(sm)
+        for i in range(len(jumpOps)):
+    		jumpOps[i] = jumpOps[i].full()
+    		jumpOps[i]= scipy.sparse.csc_matrix(jumpOps[i])
+        jumpOpsPaired = QJMCSetUp.jumpOperatorsPaired(jumpOps)
+
+        settings = QJMCAA.Settings()
+        settings.smallestDt = 0.01
+
+        HSet, dtSet = QJMCSetUp.HEffExponentSetProductionBinary(H, jumpOpsPaired, 1.0, settings)
+
+        dtExpect = 1.0
+        for i in range(len(dtSet)):
+            self.assertAlmostEqual(dtSet[i],dtExpect)
+            dtExpect = dtExpect/2
+        self.assertTrue(dtSet[-1] < 0.01)
+
 if __name__ == '__main__':
 	unittest.main()
