@@ -17,7 +17,7 @@ class Parameters:
 		self.gamma = 1.0
 
 #Define your initial state here using qutip commands
-#This example sets a chain of spins to the up state
+#This example sets a spin in the down state
 def initialStateDefine():
 	#To define it using qutip
 	psi0 = qutip.basis(2, 1)
@@ -101,6 +101,7 @@ def main(argv):
 	settings.T = 10.0
 	settings.accuracyMagnitude = 5
 	settings.numberOfPoints = 1001
+	settings.smallestDt = 0.0000001
 
 	#Sets up how the data will be saved
 	savingSettings = QJMCAA.SavingSettings()
