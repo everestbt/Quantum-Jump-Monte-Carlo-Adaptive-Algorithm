@@ -4,6 +4,7 @@ import numpy
 import random
 
 import QJMCMath
+import QJMCEvolve
 
 def approxFindDt(tStart, deltaT, HEffExponentDtSet, psi, r):
 	t = tStart
@@ -21,6 +22,8 @@ def approxFindDt(tStart, deltaT, HEffExponentDtSet, psi, r):
 			survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
 
 	return t, psi
+
+
 
 def jumpSelection(psi, jumpOpsPaired):
 	if (len(jumpOpsPaired) == 1):
@@ -67,6 +70,7 @@ def catchUpApprox(t, tEnd, deltaT, psi, jumpOps, jumpOpsPaired,HEffExponentDtSet
 	return t, psi, r
 
 
+
 def jump(tStart, deltaT, psi, r, jumpOps, jumpOpsPaired,
 		HEffExponentDtSet):
 	#Extracts where the jump occured
@@ -78,3 +82,68 @@ def jump(tStart, deltaT, psi, r, jumpOps, jumpOpsPaired,
 	psi = QJMCMath.normalise(psi)
 
 	return t, psi
+
+#Catches up to the correct time
+#TODO finish this function
+def catchUpApproxBinary(t, psi, dtSet, HEffExponentDtSet, catchUpSet):
+	#Generates the random number for the new time selection
+	r = random.random()
+	catchUpReturn = catchUpSet
+	for i in list(reversed(catchUpSet)):
+		previousPsi = psi
+		t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[i], HEffExponentDtSet[i])
+		catchUpReturn.remove(i)
+		survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
+		if survivialProbability<r:
+			return t - dtSet[i], previousPsi, r, i+1, catchUpReturn
+	return t, psi, r, 0, catchUpReturn
+
+def approxFindDtBinary(t, HEffExponentDtSet, dtSet, psi, r, startingIndex, catchUpSet):
+	previousPsi = psi
+	dt = 0
+	#Does a binary search for the jump position
+	for i in range(startingIndex,len(HEffExponentDtSet)-1):
+		t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[i], HEffExponentDtSet[i])
+		survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
+		if survivialProbability>r:
+			previousPsi = psi
+		else:
+			t -= dtSet[i]
+			psi = previousPsi
+			catchUpSet.append(i)
+	#Does the final search which needs to correct for a +ve result
+	t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[-1], HEffExponentDtSet[-1])
+	survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
+	if survivialProbability>r:
+		t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[-1], HEffExponentDtSet[-1])
+	else:
+		catchUpSet.append(len(HEffExponentDtSet)-1)
+
+	return t, psi, catchUpSet
+
+#TESTED
+def jumpBinary(tStart, psi, r, jumpOps, jumpOpsPaired, dtSet, HEffExponentDtSet):
+	t = tStart
+	startingIndex = 1
+	catchUpSet = []
+	while (tStart + dtSet[0] - t) > dtSet[-1]/2:
+		#Extracts where the jump occured
+		if (startingIndex != len(dtSet)):
+			t, psi, catchUpSet = approxFindDtBinary(t, HEffExponentDtSet,
+				dtSet, psi, r, startingIndex, catchUpSet)
+		else:
+			t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[-1],
+				HEffExponentDtSet[-1])
+		#print(t)
+		#print(catchUpSet)
+		#Selects which jump occurs
+		jumpSelect = jumpSelection(psi, jumpOpsPaired)
+		#Performs the jump
+		psi = jumpOps[jumpSelect].dot(psi)
+		psi = QJMCMath.normalise(psi)
+		#Performs catch-up
+
+		t, psi, r, startingIndex, catchUpSet = catchUpApproxBinary(t, psi,
+			dtSet, HEffExponentDtSet, catchUpSet)
+
+	return t, psi, r
