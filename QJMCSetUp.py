@@ -114,6 +114,22 @@ def HEffExponentSetProduction(H,jumpOpsPaired, dt, accuracyMagnitude):
 	return HEffExponentDt, HEffExponentDtSet
 
 #TESTED
+def HEffExponentSetProductionBinary(H, jumpOpsPaired, deltaT, settings):
+	HEff = HEffProduction(H, jumpOpsPaired)
+
+	#Defines a HEff Exponent using a small time-steps
+	HEffExponentDtSet = []
+	dtSet = []
+	dt = deltaT * 2
+	#TODO add a safety check that the smallest dt in the list isn't smaller (if so just do the one)
+	while (dt > settings.smallestDt):
+		dt = dt/2
+		dtSet.append(dt)
+		HEffExponentDtSet.append(HEffExponentProduction(HEff, dt))
+
+	return HEffExponentDtSet, dtSet
+
+#TESTED
 def randomInitialState(H):
 	j = complex(0,1)
 
