@@ -205,10 +205,6 @@ def expectationOperators(lattice, settings):
 		e_op_list[0] += no_list[i]
 	e_op_list[0] /= lattice.numberOfSites
 
-	#TODO change this so that it automatically calculates the variance on any measure you add, and move to backend
-	#This adds the average population per site squared
-	#e_op_list.append(e_op_list[0]*e_op_list[0])
-
 	for i in range(len(e_op_list)):
 		e_op_list[i] = e_op_list[i].full()
 		e_op_list[i] = scipy.sparse.csc_matrix(e_op_list[i])
@@ -226,6 +222,9 @@ def main(argv):
 	#Simulation settings
 	settings = QJMCAA.Settings()
 	settings.numberOfTrajectories = 1000
+	approxAccuracy = 6
+	dt = (settings.T/(settings.numberOfPoints-1))
+	settings.smallestDt = dt*pow(10.0,-approxAccuracy)
 
 	#Sets up how the data will be saved
 	savingSettings = QJMCAA.SavingSettings()
@@ -240,26 +239,11 @@ def main(argv):
 	#Gets the defined expectation operators
 	eOps = expectationOperators(lattice, settings)
 
-	#This was the way I chose the accuracy for my algorithm
-	#Take the maximum possible rate of the jump opeators
-	highestRate = round((parameters.gamma+parameters.kappa)*lattice.numberOfSites)
-	#This gives the approximate accuracy
-	approxAccuracy = 6
-	#Gets the difference in time
-	dt = (settings.T/(settings.numberOfPoints-1))
-	#Defines the accuracy magnitude
-	settings.accuracyMagnitude = QJMCMath.magnitude(dt*(highestRate*pow(10.0,approxAccuracy)))
-
 	#Gets the initial state you want to run it for
 	psi0 = initialStateDefine(lattice.numberOfSites)
 
 	#Runs the simulation
 	QJMCAA.QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0)
 
-
 if __name__ == "__main__":
-	startTime = time.time()
 	main(sys.argv[1:])
-	endTime = time.time()
-	print('Time taken')
-	print(endTime - startTime)
