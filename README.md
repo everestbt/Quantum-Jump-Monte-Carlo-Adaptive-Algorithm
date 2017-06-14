@@ -1,4 +1,7 @@
 # Quantum-Jump-Monte-Carlo-Adaptive-Algorithm
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3cb553bc3e70437cb09aea28e7f98338)](https://www.codacy.com/app/everest.bt/Quantum-Jump-Monte-Carlo-Adaptive-Algorithm?utm_source=github.com&utm_medium=referral&utm_content=everestbt/Quantum-Jump-Monte-Carlo-Adaptive-Algorithm&utm_campaign=badger)
+
 An easily modifiable quantum jump Monte Carlo code that is designed to use more memory for faster results.
 
 It is best used to linear times, and the base algorithm does not accept custom time lists.
