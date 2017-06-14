@@ -119,7 +119,6 @@ def QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0):
 			psi0 = QJMCSetUp.randomInitialState(H)
 		psi = psi0
 		previousPsi = psi
-		t = 0
 		index = 0
 
 		#Performs the first measure at t=0
@@ -132,14 +131,13 @@ def QJMCRun(settings, savingSettings, H, jumpOps, eOps, psi0):
 			#Saves the previous state if necessary
 			previousPsi = psi
 			#Progresses to the next time step
-			#TODO change to evolve
 			psi = HEffExponentDtSet[0].dot(psi)
 			#Calculates the survivial probability
 			survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
 			#Checks if it has jumped in the last time step
 			if survivialProbability < r:
 				#Performs the jump at the more accurate time
-				t, psi, r = QJMCJump.jumpBinary(tList[index - 1], previousPsi,
+				_, psi, r = QJMCJump.jumpBinary(tList[index - 1], previousPsi,
 					r, jumpOps, jumpOpsPaired, dtSet, HEffExponentDtSet)
 			#Performs the measurement
 			index = QJMCMeasure.measure(index, psi, eResults,eOps,
@@ -208,8 +206,6 @@ def QJMCRunLowMemory(settings, savingSettings, tList, H, jumpOps, eOps, psi0):
 		r = random.random()
 		#START OF LOOP
 		while (index < settings.numberOfPoints):
-			#Saves the previous state if necessary
-			previousPsi = psi
 			#Progresses to the next time step
 			dt = tList[index] - tList[index-1]
 			t, psi = QJMCEvolve.evolvePsi(psi, t, dt, HEff)
