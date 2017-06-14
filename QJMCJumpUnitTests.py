@@ -1,7 +1,6 @@
 #Edited 12/3/17 Ben Everest
 #Unit tests for the set-up functions
 import qutip
-import numpy
 import scipy
 import unittest
 
@@ -9,7 +8,6 @@ import QJMCSetUp
 import QJMCAA
 import QJMCJump
 import QJMCEvolve
-import QJMCMath
 
 
 class TestQJMCJump(unittest.TestCase):
@@ -20,7 +18,6 @@ class TestQJMCJump(unittest.TestCase):
 
 		sp = qutip.sigmap()
 		sm = qutip.sigmam()
-		no = sp*sm
 		jumpOps = []
 		#Decay
 		jumpOps.append(5 * sm)
@@ -47,7 +44,7 @@ class TestQJMCJump(unittest.TestCase):
 
 		for _ in range(1000):
 			r = 0.5
-			t, psi, r = QJMCJump.jumpBinary(tStart, psi0, r, jumpOps, jumpOpsPaired,
+			t, _, r = QJMCJump.jumpBinary(tStart, psi0, r, jumpOps, jumpOpsPaired,
 		 		dtSet, HEffExponentDtSet)
 			self.assertAlmostEqual(t,0.1)
 
