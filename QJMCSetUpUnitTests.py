@@ -115,7 +115,7 @@ class TestQJMCSetUp(unittest.TestCase):
         settings = QJMCAA.Settings()
         settings.smallestDt = 0.01
 
-        HSet, dtSet = QJMCSetUp.HEffExponentSetProductionBinary(H, jumpOpsPaired, 1.0, settings)
+        _, dtSet = QJMCSetUp.HEffExponentSetProductionBinary(H, jumpOpsPaired, 1.0, settings)
 
         dtExpect = 1.0
         for i in range(len(dtSet)):
