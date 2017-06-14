@@ -11,10 +11,10 @@ def measure(index, psi, eResults, eOps, histograms, savingSettings):
 	psiNormalisedLeft = numpy.conjugate(numpy.transpose(psiNormalised))[0]
 
 	#Does the measurements:
-	for i in range(len(eResults)):
+	for i, result in enumerate(eResults):
 		value = numpy.asscalar(numpy.real(numpy.dot(psiNormalisedLeft,
 			(eOps[i].dot(psiNormalised)))))
-		eResults[i][index] += value
+		result[index] += value
 		#Checks whether histograms are wanted
 		if (savingSettings.histograms):
 			#Goes through all histograms requested
@@ -44,8 +44,8 @@ def averageResults(eResults,settings):
 	return eResults
 
 def averageHistograms(histograms,numberOfTrajectories):
-	for i in range(len(histograms)):
-		histograms[i]  = histograms[i] / numberOfTrajectories
+	for hist in histograms:
+		hist  = hist / numberOfTrajectories
 	return histograms
 
 def variance(av, avSquared):
