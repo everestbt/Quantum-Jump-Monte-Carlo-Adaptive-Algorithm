@@ -100,7 +100,6 @@ def catchUpApproxBinary(t, psi, dtSet, HEffExponentDtSet, catchUpSet):
 
 def approxFindDtBinary(t, HEffExponentDtSet, dtSet, psi, r, startingIndex, catchUpSet):
 	previousPsi = psi
-	dt = 0
 	#Does a binary search for the jump position
 	for i in range(startingIndex,len(HEffExponentDtSet)-1):
 		t, psi = QJMCEvolve.evolvePsiByExponent(psi, t, dtSet[i], HEffExponentDtSet[i])
