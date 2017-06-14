@@ -1,6 +1,5 @@
 #Edited 13/3/17 Ben Everest
 #The functions used to perform a jump in the low memory trajectory
-import numpy
 import random
 
 import QJMCMath
@@ -16,9 +15,9 @@ def approxFindDt(tStart, deltaT, smallestDt, HEff, psi, r):
 		t -= dt
 		survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
 		dt = dt / 10
+		#TODO this is not used but need to check why
 		HEffExponentDt = QJMCSetUp.HEffExponentProduction(HEff, dt)
 		while survivialProbability>r:
-
 			t += dt
 			survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
 
