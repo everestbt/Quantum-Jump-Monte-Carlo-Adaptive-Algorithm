@@ -23,8 +23,6 @@ def approxFindDt(tStart, deltaT, HEffExponentDtSet, psi, r):
 
 	return t, psi
 
-
-
 def jumpSelection(psi, jumpOpsPaired):
 	if (len(jumpOpsPaired) == 1):
 		return 0
@@ -34,8 +32,8 @@ def jumpSelection(psi, jumpOpsPaired):
 	psiLeft = numpy.conjugate(numpy.transpose(psi))[0]
 	P = numpy.zeros(len(jumpOpsPaired))
 	SumPj = 0
-	for i in range(len(jumpOpsPaired)):
-		P[i] = numpy.real(numpy.dot(psiLeft,jumpOpsPaired[i].dot(psi))[0])
+	for i, pairedJumpOp in enumerate(jumpOpsPaired):
+		P[i] = numpy.real(numpy.dot(psiLeft,pairedJumpOp.dot(psi))[0])
 		SumPj += P[i]
 	r *= SumPj
 	jumpSelect = -1
