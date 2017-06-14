@@ -1,6 +1,5 @@
 #Edited 12/3/17 Ben Everest
 #An example of a lattice system
-import time
 import sys
 import qutip
 import QJMCMath
