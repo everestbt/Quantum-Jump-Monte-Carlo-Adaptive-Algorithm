@@ -74,7 +74,7 @@ def addExpectationSquared(eOps):
 
 def eResultsProduction(eOps,numberOfPoints):
 	eResults = []
-	for i in range(len(eOps)):
+	for _ in range(len(eOps)):
 		eResults.append(numpy.zeros(numberOfPoints))
 	return eResults
 
@@ -131,8 +131,6 @@ def HEffExponentSetProductionBinary(H, jumpOpsPaired, deltaT, settings):
 
 #TESTED
 def randomInitialState(H):
-	j = complex(0,1)
-
 	dim = H.get_shape()[0]
 	psi0 = numpy.ndarray(shape=(dim,1),dtype=complex)
 	for i in range(dim):
