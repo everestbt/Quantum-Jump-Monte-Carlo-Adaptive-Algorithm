@@ -7,7 +7,7 @@ import numpy
 import matplotlib.pyplot as plt
 
 import QJMCAA
-import QJMCMath
+#import QJMCMath
 import QJMCMeasure
 
 class Parameters:
@@ -72,7 +72,7 @@ def jumpOperators(parameters):
 
 #Defines the expectation operators that you want measured
 def expectationOperators():
-	si = qutip.qeye(2)
+	#si = qutip.qeye(2)
 	sp = qutip.sigmap()
 	sm = qutip.sigmam()
 	no = sp*sm
@@ -80,7 +80,6 @@ def expectationOperators():
 	eOps = []
 
 	eOps.append(no)
-
 
 	for i in range(len(eOps)):
 		eOps[i] = eOps[i].full()
@@ -140,7 +139,7 @@ def main(argv):
 	x = numpy.loadtxt(QJMCMeasure.nameTheFile(savingSettings,0))
 	t = x[:,0]
 	pop = x[:,1]
-	var = x[:,2]
+	#var = x[:,2]
 	ax1.plot(t,pop,'b')
 
 	#Runs the simulation using the low memory method
