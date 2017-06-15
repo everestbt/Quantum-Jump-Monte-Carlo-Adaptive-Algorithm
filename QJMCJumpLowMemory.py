@@ -16,7 +16,7 @@ def approxFindDt(tStart, deltaT, smallestDt, HEff, psi, r):
 		survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
 		dt = dt / 10
 		#TODO this is not used but need to check why
-		HEffExponentDt = QJMCSetUp.HEffExponentProduction(HEff, dt)
+		#HEffExponentDt = QJMCSetUp.HEffExponentProduction(HEff, dt)
 		while survivialProbability>r:
 			t += dt
 			survivialProbability = QJMCMath.calculateSquareOfWavefunction(psi)
