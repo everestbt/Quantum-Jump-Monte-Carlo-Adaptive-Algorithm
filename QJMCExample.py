@@ -148,10 +148,10 @@ def jumpOperators(parameters, lattice):
 			c_op_list.append(np.sqrt(parameters.gamma) * sm_list[k])
 
 	#Converts the existing arrays into sparse arrays
-	for cOp in c_op_list:
+	for i, cOp in enumerate(c_op_list):
 		#print i
-		cOp = cOp.full()
-		cOp = scipy.sparse.csc_matrix(cOp)
+		c_op_list[i] = cOp.full()
+		c_op_list[i]= scipy.sparse.csc_matrix(c_op_list[i])
 
 
 
@@ -204,9 +204,9 @@ def expectationOperators(lattice, settings):
 		e_op_list[0] += no_list[i]
 	e_op_list[0] /= lattice.numberOfSites
 
-	for eOp in e_op_list:
-		eOp = eOp.full()
-		eOp = scipy.sparse.csc_matrix(eOp)
+	for i, eOp in enumerate(e_op_list):
+		e_op_list[i] = eOp.full()
+		e_op_list[i] = scipy.sparse.csc_matrix(e_op_list[i])
 
 	return e_op_list
 
