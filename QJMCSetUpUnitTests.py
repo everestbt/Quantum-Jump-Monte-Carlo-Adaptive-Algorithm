@@ -22,8 +22,8 @@ class TestQJMCSetUp(unittest.TestCase):
         jumpOps.append(sp)
         jumpOps.append(no)
 
-        for i in range(len(jumpOps)):
-    		jumpOps[i] = jumpOps[i].full()
+        for i, jumpOp in enumerate(jumpOps):
+    		jumpOps[i] = jumpOp.full()
     		jumpOps[i]= scipy.sparse.csc_matrix(jumpOps[i])
         #Runs the function
         jumpOpsPaired = QJMCSetUp.jumpOperatorsPaired(jumpOps)
@@ -118,10 +118,28 @@ class TestQJMCSetUp(unittest.TestCase):
         _, dtSet = QJMCSetUp.HEffExponentSetProductionBinary(H, jumpOpsPaired, 1.0, settings)
 
         dtExpect = 1.0
-        for i in range(len(dtSet)):
-            self.assertAlmostEqual(dtSet[i],dtExpect)
+        for dt in dtSet:
+            self.assertAlmostEqual(dt,dtExpect)
             dtExpect = dtExpect/2
         self.assertTrue(dtSet[-1] < 0.01)
+
+    def test_addExpectationSquared(self):
+        sp = qutip.sigmap()
+    	sm = qutip.sigmam()
+    	no = sp*sm
+
+    	eOps = []
+
+    	eOps.append(no)
+
+    	for i in range(len(eOps)):
+    		eOps[i] = eOps[i].full()
+    		eOps[i] = scipy.sparse.csc_matrix(eOps[i])
+
+        initialLen = len(eOps)
+        QJMCSetUp.addExpectationSquared(eOps)
+
+        self.assertEqual(2*initialLen,len(eOps))
 
 if __name__ == '__main__':
 	unittest.main()
