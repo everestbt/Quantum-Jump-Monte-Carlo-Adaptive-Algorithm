@@ -56,17 +56,17 @@ def typeTest(settings, savingSettings, H, jumpOps, eOps, psi0):
 		if (not scipy.sparse.issparse(item)):
 			sys.exit("ERROR: the "+ str(c) +" expectation operator (or more) is not a sparse scipy array")
 
-	if (not type(psi0) is numpy.ndarray):
+	if (not isinstance(psi0,numpy.ndarray)):
 		sys.exit("ERROR: the initial state is not a numpy ndarray")
 
 #TESTED
 def jumpOperatorsPaired(jumpOps):
 	jumpOpsPaired = []
-	for i in range(len(jumpOps)):
-		jumpOpsPaired.append(jumpOps[i].conjugate().transpose().dot(jumpOps[i]))
+	for jumpOp in jumpOps:
+		jumpOpsPaired.append(jumpOp.conjugate().transpose().dot(jumpOp))
 	return jumpOpsPaired
 
-
+#TESTED
 def addExpectationSquared(eOps):
 	for i in range(len(eOps)):
 		eOps.append(eOps[i]*eOps[i])
@@ -89,8 +89,8 @@ def HEffProduction(H, jumpOpsPaired):
 	j=complex(0,1)
 	HEff = H
 
-	for i in range(len(jumpOpsPaired)):
-		HEff = HEff - (j/2)*jumpOpsPaired[i]
+	for jOpPaired in jumpOpsPaired:
+		HEff = HEff - (j/2)*jOpPaired
 	return HEff
 
 def HEffExponentProduction(HEff, dt):
