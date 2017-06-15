@@ -22,8 +22,8 @@ class TestQJMCJump(unittest.TestCase):
 		#Decay
 		jumpOps.append(5 * sm)
 		jumpOps.append(5 * sp)
-		for i in range(len(jumpOps)):
-			jumpOps[i] = jumpOps[i].full()
+		for i, jumpOp in enumerate(jumpOps):
+			jumpOps[i] = jumpOp.full()
 			jumpOps[i]= scipy.sparse.csc_matrix(jumpOps[i])
 		jumpOpsPaired = QJMCSetUp.jumpOperatorsPaired(jumpOps)
 
@@ -38,9 +38,6 @@ class TestQJMCJump(unittest.TestCase):
 
 		HEffExponentDtSet, dtSet = QJMCSetUp.HEffExponentSetProductionBinary(H,
 			jumpOpsPaired, 0.1, settings)
-
-		#print(dtSet)
-		t, psi = QJMCEvolve.evolvePsiByExponent(psi0, tStart, dtSet[0], HEffExponentDtSet[0])
 
 		for _ in range(1000):
 			r = 0.5
