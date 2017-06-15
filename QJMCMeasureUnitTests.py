@@ -23,8 +23,8 @@ class TestQJMCMeasure(unittest.TestCase):
     	no = sp*sm
         eOps = []
     	eOps.append(no)
-        for i in range(len(eOps)):
-    		eOps[i] = eOps[i].full()
+        for i, eOp in enumerate(eOps):
+    		eOps[i] = eOp.full()
     		eOps[i] = scipy.sparse.csc_matrix(eOps[i])
 
         histograms = []
