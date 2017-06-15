@@ -64,8 +64,8 @@ def jumpOperators(parameters):
 	if parameters.gamma>0:
 		jumpOps.append(numpy.sqrt(parameters.gamma) * no)
 
-	for i in range(len(jumpOps)):
-		jumpOps[i] = jumpOps[i].full()
+	for i, jumpOp in enumerate(jumpOps):
+		jumpOps[i] = jumpOp.full()
 		jumpOps[i]= scipy.sparse.csc_matrix(jumpOps[i])
 
 	return jumpOps
@@ -81,8 +81,8 @@ def expectationOperators():
 
 	eOps.append(no)
 
-	for i in range(len(eOps)):
-		eOps[i] = eOps[i].full()
+	for i, eOp in enumerate(eOps):
+		eOps[i] = eOp.full()
 		eOps[i] = scipy.sparse.csc_matrix(eOps[i])
 
 	return eOps
