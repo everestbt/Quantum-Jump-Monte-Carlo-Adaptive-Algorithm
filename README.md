@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3cb553bc3e70437cb09aea28e7f98338)](https://www.codacy.com/app/everest.bt/Quantum-Jump-Monte-Carlo-Adaptive-Algorithm?utm_source=github.com&utm_medium=referral&utm_content=everestbt/Quantum-Jump-Monte-Carlo-Adaptive-Algorithm&utm_campaign=badger)
 
-An easily modifiable quantum jump Monte Carlo code that is designed to use more memory for faster results.
+An easily modifiable quantum jump Monte Carlo code that is designed to use more memory for faster results. Please note, this is not a competitor to QuTiP, you will get faster results with their platform. This is designed to be informative on the algorithm and be modifiable.
 
 It is best used to linear times, and the base algorithm does not accept custom time lists.
 
